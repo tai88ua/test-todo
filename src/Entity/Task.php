@@ -22,18 +22,18 @@ class Task
     private ?int $id = null;
 
     #[ORM\Column(type: "boolean", options: ["default" => false])]
-    private bool $isDone;
+    private bool $isDone = false;
 
     #[ORM\Column(length: 256)]
     private string $info;
 
     #[ORM\Column(type: "string", columnDefinition: "ENUM('done', 'new', 'asap', 'viewed')", options: ["default" => 'new'])]
-    private string $status;
+    private string $status = 'new';
 
     #[ORM\Column(type: "integer",  options: ["default" => 0])]
-    private int $countView;
+    private int $countView = 0;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private \DateTimeImmutable $createAt;
 
     public function getId(): ?int
@@ -49,6 +49,7 @@ class Task
     public function setIsDone(bool $isDone): void
     {
         $this->isDone = $isDone;
+        $this->setStatus('done');
     }
 
     public function getInfo(): string
